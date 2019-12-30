@@ -1,12 +1,12 @@
 [submodule "dwm"]
 	path = dwm
-	url = git@github.com:najeeb-rifaat/dwm.git
+	url = https://github.com/najeeb-rifaat/dwm.git
 [submodule "st"]
 	path = st
-	url = git@github.com:najeeb-rifaat/st.git
+	url = https://github.com/najeeb-rifaat/st.git
 [submodule "dmenu"]
 	path = dmenu
-	url = git@github.com:najeeb-rifaat/dmenu.git
+	url = https://github.com/najeeb-rifaat/dmenu.git
 [submodule "surf"]
 	path = surf
-	url = git@github.com:najeeb-rifaat/surf.git
+	url = https://github.com/najeeb-rifaat/surf.git
