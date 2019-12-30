@@ -1,0 +1,28 @@
+echo ">>> Installing dependencies"
+sudo pacman -S --noconfirm python-pywal redshift xcompmgr
+
+echo ">>>> Installing images"
+sudo install -m644 -D ./lock.png /var/lock.png
+sudo install -m644 -D ./wallpaper.jpg /var/wallpaper.jpg
+
+echo ">>>> Installing services"
+sudo install -m644 -D ./sleeplock.service /etc/systemd/system/sleeplock.service
+
+echo ">>>> Installing scripts"
+sudo install -m644 -D ./lock.sh $HOME/.local/bin/lock
+sudo install -m644 -D ./status.sh $HOME/.local/bin/status_bar
+
+echo ">>>> Installing fonts"
+cp -rf fonts/** ~/.fonts/
+fc-cache -f
+
+echo ">>>> Setting wallpaper"
+feh --bg-scale /var/wallpaper.jpg
+
+echo ">>>> Generating color schemes"
+wal -i /var/wallpaper.jpg
+
+echo ">>>> Setting Xinit"
+sudo install -m644 -D ./.xinitrc $HOME/.xinitrc
+
+git submodule foreach ./install.sh
