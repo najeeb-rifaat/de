@@ -9,8 +9,8 @@ echo ">>>> Installing services"
 sudo install -m644 -D ./sleeplock.service /etc/systemd/system/sleeplock.service
 
 echo ">>>> Installing scripts"
-sudo install -m644 -D ./lock.sh $HOME/.local/bin/lock
-sudo install -m644 -D ./status.sh $HOME/.local/bin/status_bar
+sudo install -m755 -D ./lock.sh $HOME/.local/bin/lock
+sudo install -m755 -D ./status.sh $HOME/.local/bin/status_bar
 
 echo ">>>> Installing fonts"
 cp -rf fonts/** ~/.fonts/
@@ -23,6 +23,6 @@ echo ">>>> Generating color schemes"
 wal -i /var/wallpaper.jpg
 
 echo ">>>> Setting Xinit"
-sudo install -m644 -D ./.xinitrc $HOME/.xinitrc
+sudo install -m755 -D ./.xinitrc $HOME/.xinitrc
 
 git submodule foreach ./install.sh
