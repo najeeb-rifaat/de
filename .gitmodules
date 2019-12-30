@@ -1,0 +1,16 @@
+[submodule "dmenu"]
+	path = 1_dmenu
+	url = https://github.com/najeeb-rifaat/dmenu.git
+	branch = master
+[submodule "st"]
+	path = 2_st
+	url = https://github.com/najeeb-rifaat/st.git
+	branch = master
+[submodule "dwm"]
+	path = 3_dwm
+	url = https://github.com/najeeb-rifaat/dwm.git
+	branch = master
+[submodule "surf"]
+	path = 3_surf
+	url = https://github.com/najeeb-rifaat/surf.git
+	branch = master
