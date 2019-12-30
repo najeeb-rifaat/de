@@ -14,3 +14,7 @@
 	path = 4_surf
 	url = https://github.com/najeeb-rifaat/surf.git
 	branch = master
+[submodule "nix-config"]
+	path = 5_nix_config
+	url = https://github.com/najeeb-rifaat/nix-config.git
+	branch = master
