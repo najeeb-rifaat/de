@@ -11,6 +11,6 @@
 	url = https://github.com/najeeb-rifaat/dwm.git
 	branch = master
 [submodule "surf"]
-	path = 4_surf
+	path = 3_surf
 	url = https://github.com/najeeb-rifaat/surf.git
 	branch = master
