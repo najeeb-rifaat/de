@@ -21,7 +21,7 @@ feh --bg-scale /var/wallpaper.jpg
 
 echo ">>>> Generating color schemes"
 wal -i /var/wallpaper.jpg
-sed "17d" ~/.cache/wal/colors-wal-dwm.h > ~/.cache/wal/colors-wal-dwm.6.2.h
+sed "17d" $HOME/.cache/wal/colors-wal-dwm.h > $HOME/.cache/wal/colors-wal-dwm.6.2.h
 
 echo ">>>> Setting Xinit"
 sudo install -m755 -D ./.xinitrc $HOME/.xinitrc
