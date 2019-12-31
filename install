@@ -3,12 +3,15 @@ sudo pacman -S --noconfirm git python-pywal redshift xcompmgr
 sudo pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
 sudo pacman -S --noconfirm iw neovim python python-pip
 sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock
+yay -S --noconfirm xkb-switch
 
 echo ">>>> Installing images"
 install -m644 -D ./wallpaper.jpg /var/wallpaper.jpg
 
-echo ">>>> Installing services"
+echo ">>>> Installing lockscreen"
 sudo install -m644 -D ./sleeplock.service /etc/systemd/system/sleeplock.service
+sudo systemctl daemon-reload
+sudo systemctl enable sleeplock.service
 
 echo ">>>> Installing scripts"
 install -m755 -D ./lock.sh $HOME/.local/bin/lock
