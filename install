@@ -1,8 +1,10 @@
 echo ">>> Installing dependencies"
-sudo pacman -S --noconfirm python-pywal redshift xcompmgr
+sudo pacman -S --noconfirm git python-pywal redshift xcompmgr
+sudo pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
+sudo pacman -S --noconfirm iw neovim python python-pip
+sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock
 
 echo ">>>> Installing images"
-install -m644 -D ./lock.png /var/lock.png
 install -m644 -D ./wallpaper.jpg /var/wallpaper.jpg
 
 echo ">>>> Installing services"

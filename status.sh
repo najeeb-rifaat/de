@@ -49,8 +49,7 @@ print_volume() {
 
 print_wifi() {
   ip=$(ip route get 8.8.8.8 2>/dev/null|grep -Eo 'src [0-9.]+'|grep -Eo '[0-9.]+')
-
-  if=wlp2s0
+  if=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
     while IFS=$': \t' read -r label value
     do
       case $label in SSID) SSID=$value

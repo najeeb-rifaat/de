@@ -1,4 +1,4 @@
-# file /etc/systemd/system/wakelock.service
+# file /etc/systemd/system/sleeplock.service
 
 [Unit]
 Description=Lock the screen on resume from suspend
@@ -7,7 +7,7 @@ Description=Lock the screen on resume from suspend
 User=najee89b
 Type=forking
 Environment=DISPLAY=:0
-ExecStart=i3lock -f -e -i /var/lock.png
+ExecStart=/home/najee89b/.local/bin/lock
 
 [Install]
 WantedBy=sleep.target
