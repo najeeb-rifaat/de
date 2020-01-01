@@ -2,7 +2,7 @@ echo ">>> Installing dependencies"
 sudo pacman -S --noconfirm git python-pywal redshift xcompmgr
 sudo pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
 sudo pacman -S --noconfirm iw neovim python python-pip
-sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock
+sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock xbindkeys
 yay -S --noconfirm xkb-switch
 
 echo ">>>> Installing images"
@@ -30,6 +30,9 @@ feh --bg-scale /var/wallpaper.jpg
 echo ">>>> Generating color schemes"
 wal -i /var/wallpaper.jpg
 sed "17d" $HOME/.cache/wal/colors-wal-dwm.h > $HOME/.cache/wal/colors-wal-dwm.6.2.h
+
+echo ">>>> Setting Xkeybind"
+install -m755 -D ./.xbindkeysrc $HOME/.xbindkeysrc
 
 echo ">>>> Setting Xinit"
 install -m755 -D ./.xinitrc $HOME/.xinitrc

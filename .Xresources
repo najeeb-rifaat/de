@@ -1,4 +1,4 @@
-*.font: SF Mono:style=Regular:size=22:antialias=true
+*.font: SF Mono:style=Regular:size=20:antialias=true
 *.termname: st-256color
 *.xfps: 60
 *.actionfps: 30
