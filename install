@@ -6,7 +6,7 @@ sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock xbindkeys
 yay -S --noconfirm xkb-switch
 
 echo ">>>> Installing images"
-install -m644 -D ./wallpaper.jpg /var/wallpaper.jpg
+install -m755 -D ./wallpaper.jpg $HOME/Pictures/system/wallpaper.jpg
 
 echo ">>>> Installing lockscreen"
 sudo install -m644 -D ./sleeplock.service /etc/systemd/system/sleeplock.service
@@ -25,10 +25,10 @@ cp -rf fonts/** ~/.fonts/
 fc-cache -f
 
 echo ">>>> Setting wallpaper"
-feh --bg-scale /var/wallpaper.jpg
+feh --bg-scale $HOME/Pictures/system/wallpaper.jpg
 
 echo ">>>> Generating color schemes"
-wal -i /var/wallpaper.jpg
+wal -i $HOME/Pictures/system/wallpaper.jpg
 sed "17d" $HOME/.cache/wal/colors-wal-dwm.h > $HOME/.cache/wal/colors-wal-dwm.6.2.h
 
 echo ">>>> Setting Xkeybind"
