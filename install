@@ -34,3 +34,6 @@ echo ">>>> Setting Xinit"
 install -m755 -D ./.xinitrc $HOME/.xinitrc
 
 git submodule foreach ./install.sh
+
+echo ">>>> Fonts"
+cd ./fonts && ./install && cd ..
