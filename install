@@ -20,10 +20,6 @@ install -m755 -D ./status.sh $HOME/.local/bin/status_bar
 echo ">>>> Installing Xorg settings"
 sudo cp -rf ./xorg.conf.d/*.conf /etc/X11/xorg.conf.d/
 
-echo ">>>> Installing fonts"
-cp -rf fonts/** ~/.fonts/
-fc-cache -f
-
 echo ">>>> Setting wallpaper"
 feh --bg-scale $HOME/Pictures/system/wallpaper.jpg
 
