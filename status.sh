@@ -27,7 +27,7 @@ function get_velocity {
   then
     echo $(echo "scale=2; $velKB/1024" | bc)MB/s
   else
-    echo ${velKB}KB/s
+    echo "${velKB}Kb"
   fi
 }
 
@@ -38,13 +38,19 @@ old_transmitted_bytes=$transmitted_bytes
 old_time=$now
 
 print_volume() {
-  volume="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
-  if test "$volume" -gt 0
-  then
-    echo -e "${volume}"
+  VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+  MUTE=$(amixer get Master | tail -n1 | awk '{print $6}')
+  printf "%s" "$SEP1"
+  if [ "$VOL" -eq 0 ] || [[ "$MUTE" == "[off]" ]]; then
+      printf "🔇 0%%"
+  elif [ "$VOL" -gt 0 ] && [ "$VOL" -le 33 ]; then
+      printf "🔈 %s%%" "$VOL"
+  elif [ "$VOL" -gt 33 ] && [ "$VOL" -le 66 ]; then
+      printf "🔉 %s%%" "$VOL"
   else
-    echo -e "Mute"
+      printf "🔊 %s%%" "$VOL"
   fi
+  printf "%s\n" "$SEP2"
 }
 
 print_wifi() {
@@ -54,75 +60,69 @@ print_wifi() {
     do
       case $label in SSID) SSID=$value
         ;;
-      signal) SIGNAL=$value
+      signal) SIGNAL=${value// /}
         ;;
     esac
   done < <(iw "$if" link)
 
   RESULT=$(echo "${SSID:0:10}" | tr -cd "[:alnum:]")
-  echo "$RESULT $SIGNAL $ip"
+  echo "直 $RESULT $SIGNAL $ip"
 }
 
 print_mem(){
   memfree=$(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))
-  echo -e "${memfree}MB"
+  echo -e " ${memfree}M"
 }
 
 print_bat(){
-  hash acpi || return 0
-  onl="$(grep "on-line" <(acpi -V))"
-  charge="$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/capacity)"
-  if test -z "$onl"
-  then
-    # suspend when we close the lid
-    #systemctl --user stop inhibit-lid-sleep-on-battery.service
-    echo -e "${charge}"
-  else
-    # On mains! no need to suspend
-    #systemctl --user start inhibit-lid-sleep-on-battery.service
-    echo -e "${charge}"
-  fi
+    # Change BAT1 to whatever your battery is identified as. Typically BAT0 or BAT1
+    CHARGE=$(cat /sys/class/power_supply/BAT0/capacity)
+    STATUS=$(cat /sys/class/power_supply/BAT0/status)
+
+    printf "%s" "$SEP1"
+    if [ "$STATUS" = "Charging" ]; then
+        printf " %s%% %s" "$CHARGE" "$STATUS"
+    else
+        printf " %s%% %s" "$CHARGE" "$STATUS"
+    fi
+    printf "%s\n" "$SEP2"
 }
 
 print_date(){
-  date "+%a %m-%d %H:%M%p"
+  printf "📆 %s" "$(date "+%a %d-%m-%y %T")"
 }
 
 print_xkb() {
   keyboard_layout=$(xkb-switch)
   keyboard_layout=${keyboard_layout:0:2}
-  keyboard_layout=$(echo $keyboard_layout | awk '{print toupper($0)}')
   keyboard_caps=$(xset -q | grep '00: Caps Lock:' | cut -d':' -f3 | cut -d' ' -f4)
   if [ $keyboard_caps = "on" ]
   then
-    echo "$keyboard_layout "
+    echo " $keyboard_layout" | awk '{print toupper($0)}'
   else
-    echo "$keyboard_layout"
+    echo " $keyboard_layout"
   fi
 }
 
 print_xbacklight() {
-  backight=$(xbacklight | cut -d"." -f1)
-  echo "$backight"
+  printf "%s☀ %.0f%s\n" "$SEP1" "$(xbacklight)" "$SEP2"
 }
 
-while true
-do
-
-  # Get new transmitted, received byte number values and current time
-  get_bytes
-
+print_network_vel() {
   # Calculates speeds
+  get_bytes
   vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
   vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
-
-  xsetroot -name "$vel_recv $vel_trans $(print_mem) $(print_wifi) B:$(print_bat) V:$(print_volume) $(print_date) $(print_xkb)"
+  echo "$vel_recv/$vel_trans"
 
   # Update old values to perform new calculations
   old_received_bytes=$received_bytes
   old_transmitted_bytes=$transmitted_bytes
   old_time=$now
+}
 
-  sleep 1
-
+while true
+do
+  xsetroot -name "|$(print_network_vel)|$(print_mem)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
+  sleep 0.5
 done
