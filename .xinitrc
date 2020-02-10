@@ -28,6 +28,9 @@ exec redshift &
 # start composition manager
 exec xcompmgr -CcfF -I-.010 -O-.02 -D3 -t-1 -l-3 -r4.2 -o.5 &
 
+# start clipmenu
+exec clipmenud &
+
 # start window manager (DWM)
 exec dwm
 
