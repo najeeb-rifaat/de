@@ -17,6 +17,7 @@ sudo systemctl enable sleeplock.service
 echo ">>>> Installing scripts"
 install -m755 -D ./lock.sh $HOME/.local/bin/lock
 install -m755 -D ./clip.sh $HOME/.local/bin/clip
+install -m755 -D ./shot.sh $HOME/.local/bin/shot
 install -m755 -D ./xpass.sh $HOME/.local/bin/xpass
 install -m755 -D ./status.sh $HOME/.local/bin/status_bar
 
