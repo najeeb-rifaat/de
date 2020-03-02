@@ -105,7 +105,7 @@ print_xkb() {
 }
 
 print_xbacklight() {
-  printf "%s☀ %.0f%s\n" "$SEP1" "$(xbacklight)" "$SEP2"
+  printf "%s %.0f%s\n" "$SEP1" "$(xbacklight)" "$SEP2"
 }
 
 print_network_vel() {
