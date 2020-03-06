@@ -37,7 +37,8 @@ install -m755 -D ./.xbindkeysrc $HOME/.xbindkeysrc
 echo ">>>> Setting Xinit"
 install -m755 -D ./.xinitrc $HOME/.xinitrc
 
+echo ">>>> Installing DE modules"
 git submodule foreach ./install.sh
 
 echo ">>>> Fonts"
-cd ./fonts && ./install && cd ..
+cd ./fonts && ./install.sh && cd ..
