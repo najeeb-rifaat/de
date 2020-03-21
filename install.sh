@@ -1,10 +1,11 @@
 echo ">>> Installing dependencies"
-sudo pacman -S --noconfirm git python-pywal redshift xcompmgr
+sudo pacman -s --noconfirm git pv
+sudo pacman -s --noconfirm python-pywal redshift xcompmgr
 sudo pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
 sudo pacman -S --noconfirm iw neovim python python-pip
 sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock xbindkeys
-sudo pacman -Sdd --noconfirm clipmenu
-yay -S --noconfirm xkb-switch
+sudo pacman -S --noconfirm clipmenu dunst
+yay -S --noconfirm xkb-switch batify
 
 echo ">>>> Installing images"
 install -m755 -D ./wallpaper.jpg $HOME/Pictures/system/wallpaper.jpg
@@ -33,6 +34,9 @@ sed "17d" $HOME/.cache/wal/colors-wal-dwm.h > $HOME/.cache/wal/colors-wal-dwm.6.
 
 echo ">>>> Setting Xkeybind"
 install -m755 -D ./.xbindkeysrc $HOME/.xbindkeysrc
+
+echo ">>>> Setting Dunst (notifications)"
+install -m755 -D ./dunstrc $HOME/.config/dunst/dunstrc
 
 echo ">>>> Setting Xinit"
 install -m755 -D ./.xinitrc $HOME/.xinitrc
