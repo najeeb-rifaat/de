@@ -125,7 +125,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%a<b><img src="%i" />\n<i>%s</i>\n%b"
+    format = "<center> <u>%a<u><img width="25px" src="%i"/></center>\n<i>%s</i>\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
