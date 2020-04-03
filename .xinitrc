@@ -8,7 +8,7 @@
 [[ -f $HOME/.xbindkeysrc ]] && xbindkeys &
 
 # set wallpaper
-[[ -f $HOME/Pictures/system/wallpaper.jpg ]] && feh --bg-fill $HOME/Pictures/system/wallpaper.jpg &
+[[ -f $HOME/Pictures/system/wallpaper.jpg ]] && feh --bg-fill $HOME/Pictures/system/wallpaper.jpg && wal -i $HOME/Pictures/system/wallpaper.jpg &
 
 # set display variable for systemd
 exec dbus-update-activation-environment --systemd DISPLAY &
