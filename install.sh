@@ -3,8 +3,10 @@ sudo pacman -s --noconfirm git pv
 sudo pacman -s --noconfirm python-pywal redshift xcompmgr
 sudo pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
 sudo pacman -S --noconfirm iw neovim python python-pip
-sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock xbindkeys
-sudo pacman -S --noconfirm clipmenu dunst
+sudo pacman -S --noconfirm mpv cb scrot imagemagic i3lock xbindkeys dunst
+sudo pacman -S --noconfirm clipnotify
+#Special case to ignore dmenu
+sudo pacman -Sdd --noconfirm clipmenu
 yay -S --noconfirm xkb-switch batify
 
 echo ">>>> Installing images"
