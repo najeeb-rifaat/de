@@ -50,7 +50,7 @@ print_volume() {
   else
       printf "🔊 %s%%" "$VOL"
   fi
-  printf "%s\n" "$SEP2"
+  printf "%s\n"
 }
 
 print_wifi() {
@@ -71,7 +71,7 @@ print_wifi() {
 
 print_mem(){
   memfree=$(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))
-  echo -e " ${memfree}M"
+  printf " %.0fMB" "$memfree"
 }
 
 print_bat(){
@@ -79,17 +79,15 @@ print_bat(){
     CHARGE=$(cat /sys/class/power_supply/BAT0/capacity)
     STATUS=$(cat /sys/class/power_supply/BAT0/status)
 
-    printf "%s" "$SEP1"
     if [ "$STATUS" = "Charging" ]; then
         printf " %s%% %s" "$CHARGE" "$STATUS"
     else
         printf " %s%% %s" "$CHARGE" "$STATUS"
     fi
-    printf "%s\n" "$SEP2"
 }
 
 print_date(){
-  printf "📆 %s" "$(date "+%a %d-%m-%y %T")"
+  printf "📆 %s" "$(date "+%a %d-%m-%y %H:%M")"
 }
 
 print_xkb() {
@@ -98,14 +96,14 @@ print_xkb() {
   keyboard_caps=$(xset -q | grep '00: Caps Lock:' | cut -d':' -f3 | cut -d' ' -f4)
   if [ $keyboard_caps = "on" ]
   then
-    echo " $keyboard_layout" | awk '{print toupper($0)}'
+    printf " %s" "$keyboard_layout" | awk '{print toupper($0)}'
   else
-    echo " $keyboard_layout"
+    printf " $keyboard_layout"
   fi
 }
 
 print_xbacklight() {
-  printf "%s %.0f%s\n" "$SEP1" "$(xbacklight)" "$SEP2"
+  printf " %.0f" "$(xbacklight)"
 }
 
 print_network_vel() {
@@ -113,7 +111,7 @@ print_network_vel() {
   get_bytes
   vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
   vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
-  echo "$vel_recv/$vel_trans"
+  printf "%s/%s" "$vel_recv" "$vel_trans"
 
   # Update old values to perform new calculations
   old_received_bytes=$received_bytes
@@ -121,8 +119,12 @@ print_network_vel() {
   old_time=$now
 }
 
+print_cpu() {
+  printf " %.0fMHz" "$(lscpu | grep 'CPU MHz' | cut -d' ' -f27)"
+}
+
 while true
 do
-  xsetroot -name "|$(print_network_vel)|$(print_mem)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
-  sleep 0.5
+  xsetroot -name "$(print_network_vel)|$(print_mem)|$(print_cpu)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
+  sleep 3
 done
