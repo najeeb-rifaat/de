@@ -2,6 +2,8 @@
 # Screenshot: http://s.natalian.org/2013-08-17/dwm_status.png
 # Network speed stuff stolen from http://linuxclues.blogspot.sg/2009/11/shell-script-show-network-speed.html
 
+export CYCLE_DELAY=3
+
 # This function parses /proc/net/dev file searching for a line containing $interface data.
 # Within that line, the first and ninth numbers after ':' are respectively the received and transmited bytes.
 function get_bytes {
@@ -25,7 +27,7 @@ function get_velocity {
   velKB=$(echo "1000000000*($value-$old_value)/1024/$timediff" | bc)
   if test "$velKB" -gt 1024
   then
-    echo $(echo "scale=2; $velKB/1024" | bc)MB/s
+    echo $(echo "scale=2; $velKB/(1024 * $CYCLE_DELAY + 1)" | bc)MB/s
   else
     echo "${velKB}Kb"
   fi
@@ -126,5 +128,5 @@ print_cpu() {
 while true
 do
   xsetroot -name "$(print_network_vel)|$(print_mem)|$(print_cpu)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
-  sleep 3
+  sleep $CYCLE_DELAY
 done
