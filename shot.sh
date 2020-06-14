@@ -1,1 +1,3 @@
-scrot -q 100 -s -e 'cat $f | xclip -selection clipboard -t image/png && rm $f'
+#!/bin/env sh
+
+scrot -q 40 -s -e 'xclip -selection clipboard -t image/png -i $f'

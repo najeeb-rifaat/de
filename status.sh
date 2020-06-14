@@ -4,41 +4,6 @@
 
 export CYCLE_DELAY=3
 
-# This function parses /proc/net/dev file searching for a line containing $interface data.
-# Within that line, the first and ninth numbers after ':' are respectively the received and transmited bytes.
-function get_bytes {
-  # Find active network interface
-  interface=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
-  line=$(grep $interface /proc/net/dev | cut -d ':' -f 2 | awk '{print "received_bytes="$1, "transmitted_bytes="$9}')
-  eval $line
-  now=$(date +%s%N)
-}
-
-# Function which calculates the speed using actual and old byte number.
-# Speed is shown in KByte per second when greater or equal than 1 KByte per second.
-# This function should be called each second.
-
-function get_velocity {
-  value=$1
-  old_value=$2
-  now=$3
-
-  timediff=$(($now - $old_time))
-  velKB=$(echo "1000000000*($value-$old_value)/1024/$timediff" | bc)
-  if test "$velKB" -gt 1024
-  then
-    echo $(echo "scale=2; $velKB/(1024 * $CYCLE_DELAY + 1)" | bc)MB/s
-  else
-    echo "${velKB}Kb"
-  fi
-}
-
-# Get initial values
-get_bytes
-old_received_bytes=$received_bytes
-old_transmitted_bytes=$transmitted_bytes
-old_time=$now
-
 print_volume() {
   VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
   MUTE=$(amixer get Master | tail -n1 | awk '{print $6}')
@@ -105,20 +70,7 @@ print_xkb() {
 }
 
 print_xbacklight() {
-  printf " %.0f" "$(xbacklight)"
-}
-
-print_network_vel() {
-  # Calculates speeds
-  get_bytes
-  vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
-  vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
-  printf "%s/%s" "$vel_recv" "$vel_trans"
-
-  # Update old values to perform new calculations
-  old_received_bytes=$received_bytes
-  old_transmitted_bytes=$transmitted_bytes
-  old_time=$now
+  printf "💡 %.0f" "$(xbacklight)"
 }
 
 print_cpu() {
@@ -127,6 +79,6 @@ print_cpu() {
 
 while true
 do
-  xsetroot -name "$(print_network_vel)|$(print_mem)|$(print_cpu)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
+  xsetroot -name "$(print_mem)|$(print_cpu)|$(print_wifi)|$(print_xbacklight)|$(print_bat)|$(print_volume)|$(print_xkb)|$(print_date)"
   sleep $CYCLE_DELAY
 done
