@@ -1,0 +1,20 @@
+#!/bin/env sh
+THIS_TAG=$(( $(xdotool get_desktop) + 1))
+ALL_TAGS=$(xdotool get_num_desktops)
+NEW_TAG=$THIS_TAG
+
+if [ $1 == "right" ]; then
+  NEW_TAG=$(( $THIS_TAG+1 ))
+  if [ "$THIS_TAG" -ge "$ALL_TAGS" ]; then
+      NEW_TAG=1
+  fi
+fi
+
+if [ $1 == "left" ]; then
+  NEW_TAG=$(( $THIS_TAG-1 ))
+  if [ "$THIS_TAG" -le 0 ]; then
+      NEW_TAG=1
+  fi
+fi
+
+xdotool key alt+$NEW_TAG
