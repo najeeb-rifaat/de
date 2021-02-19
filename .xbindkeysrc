@@ -78,13 +78,29 @@
    XF86AudioLowerVolume
 
 # Mute volume
+"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+   XF86AudioMicMute
+
+# Mute volume
 "pactl set-sink-mute @DEFAULT_SINK@ toggle"
    XF86AudioMute
 
 # Increase backlight
-"xbacklight -inc 5"
+"brightnessctl s +5%"
    XF86MonBrightnessUp
 
 # Decrease backlight
-"xbacklight -dec 5"
+"brightnessctl s 5%-"
    XF86MonBrightnessDown
+
+# Music toggle
+"mpc toggle"
+   XF86AudioPlay
+
+# Music next
+"mpc next"
+   XF86AudioNext
+
+# Music prev
+"mpc prev"
+   XF86AudioPrev
